@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch } from "react-redux";
+// import { useEffect } from "react";
+import List from "./component/List";
+import "./App.css";
 
 function App() {
+  const dispatch = useDispatch();
+
+  fetch("https://reqres.in/api/users?page=1")
+    .then((res) => res.json())
+    .then((r) => {
+      console.log(r.data);
+
+      localStorage.setItem("item", JSON.stringify(r.data));
+      dispatch({ type: "LOAD", payload: r.data });
+    });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <List />
     </div>
   );
 }
